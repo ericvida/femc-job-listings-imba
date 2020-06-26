@@ -1,39 +1,50 @@
 import {listings} from './data.imba'
-css body p:0 m:0 
+
+css body, html
+	p:0 m:0
 css @root
 	box-sizing: content-box
 	$font: 'Spartan', sans-serif
 	$shadow: 0px 5px 10px hsl(180, 29%, 80%)
 tag app-root
 	css &
-		section
-			bg: red4/80
+		main
+			bg: teal4/10
+			bg: red2/40 # TODO: delete this when bug is fixed
 		.container
 			max-width: 1200px
 			mx: auto
-			mt: -20px
-			bg: gray3
+			# A negative margin-top is not supposed to move the parent up with it, but it does.
+			# change this margin
+			margin-top: -20px
+
 		.signature
 			ff: $font
 			text-align: center
-			color: teal6
+			py:6
+			color: teal5
+			fw:bold
+			a
+				color: indigo6 @hover: indigo7
+				text-decoration: none
+				@hover
+					border-bottom: 3px solid indigo7
 	def render
 		<self>
 			<Header>
-			<section>
+			<main>
 				<.container>
 					<FilterBar>
-					<Listings>
-				<div.signature> "Joyfully Coded with {<a href="https://v2.imba.io"> "Imba"}, by {<a href="https://github.com/ericvida"> "Eric Vida"}"
+					# <Listings> # TODO: Uncomment this when bug is fixed
+				<div.signature> "Joyfully Coded with {<a href="https://v2.imba.io" target="_blank"> "Imba"} by {<a href="https://github.com/ericvida" target="_blank"> "Eric Vida"}"
 
 tag Header
 	css &
 		display: block
 		h: 150px
-		w:100%
-		bg: url("./images/bg-header-desktop.svg") repeat #5ba4a4
-		bgr: no-repeat
-		bgs: 100%
+		w: 100%
+		bg: url("./images/bg-header-desktop.svg") repeat #5ba4a4 bgr: no-repeat bgs: 100%
+		# bg: teal9
 	def render
 		<self>
 
@@ -46,7 +57,7 @@ tag FilterBar
 		c: teal8 p: 2 radius: 2
 		shadow: $shadow
 		border-radius: 5px
-		min-height: 60px
+		min-height: 50px
 		.left
 			flex-grow: 1
 		.right
@@ -54,28 +65,30 @@ tag FilterBar
 		span
 			py:1 px:8px
 			display: inline-block
-			&.tag
-				mr: 1 @last: 0
-				display: inline-block
-				user-select: none
-			&.name
-				bg: teal1
-				radius: 2
-				brl:2
-			&.remove
-				background-color: teal9
-				color: teal1
-				brr: 2
-				fs: 1em
-				cursor: pointer
-				fw: bold
-			&.clear
-				cursor: pointer
-				color: gray6 @hover: teal6
-				bg: none @hover: gray1
-				p: 8px 8px 5px
-				font-size: 16px
-				user-select: none
+	css .tag
+		mr: 4 @last: 0
+		display: inline-block
+		user-select: none
+		line-height: 1.6em
+		font-size: 1em
+		p:0
+		shadow: sm
+	css .name
+		bg: teal5/18
+		radius: 2 0 0 2
+		fw: bold
+	css .remove
+		background-color: teal6
+		color: teal1
+		brr: 2
+		fs: 1em
+		cursor: pointer
+		fw: bold
+	css .clear
+		cursor: pointer
+		color: gray6 @hover: teal6
+		bg: none @hover: gray1
+		user-select: none
 	prop tagNumber = 5
 	def removeTag
 		tagNumber--
@@ -85,7 +98,7 @@ tag FilterBar
 				for item in [0...tagNumber]
 					<span.tag>
 						<span.name> "tag"
-						<span.remove @click.removeTag> "╳"
+						<span.remove @click.removeTag> "×"
 			<.right>
 				<span.clear> "Clear"
 tag Listings
