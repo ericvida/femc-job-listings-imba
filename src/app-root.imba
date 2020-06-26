@@ -11,9 +11,6 @@ css @root
 	$font: 'Spartan', sans-serif
 	$shadow: 0px 5px 10px hsl(180, 29%, 80%)
 
-
-
-
 tag app-root
 	# APP-ROOT STYLES
 	css &
@@ -26,6 +23,7 @@ tag app-root
 			max-width: 1200px
 			mx: auto
 			margin-top: -30px
+			px:6
 
 	css .signature
 			ff: $font
@@ -61,7 +59,10 @@ tag Header
 		display: block
 		h: 150px
 		w: 100%
-		bg: url("./images/bg-header-desktop.svg") repeat #5ba4a4 bgr: no-repeat bgs: 100%
+		bg: url("./images/bg-header-desktop.svg") repeat #5ba4a4
+		bgs: 100% cover
+
+		
 	# HEADER TEMPLATE
 	def render
 		<self>
