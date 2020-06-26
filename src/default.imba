@@ -1,8 +1,5 @@
-import {listings} from './data.imba'
 import {Logo} from './tags/Logo'
-
-var filterArray = ["HTML","CSS","JavaScript","Python", "React", "Sass","Ruby", "RoR", "Vue", "Django"]
-
+import {listings} from './data.imba'
 
 css body, html
 	p:0 m:0
@@ -10,21 +7,15 @@ css @root
 	box-sizing: content-box
 	$font: 'Spartan', sans-serif
 	$shadow: 0px 5px 10px hsl(180, 29%, 80%)
-
-
-
-
 tag app-root
-	# APP-ROOT STYLES
-	css &
-		d:flex
-		fld: column
 	css main
 			bg: teal4/10
-			pb:100px
+			bg: red2/40 # TODO: delete this when bug is fixed
 	css .container
 			max-width: 1200px
 			mx: auto
+			# A negative margin-top is not supposed to move the parent up with it, but it does.
+			# change this margin
 			margin-top: -30px
 
 	css .signature
@@ -34,20 +25,21 @@ tag app-root
 			color: teal5
 			fw: bold
 			a 
-				color: teal8 @hover: pink5
+				color: purple6 @hover: pink5
 				text-decoration: none
 	css %logo
 		display: inline-block
 		width: 80px
-		transform: translateY(10px)	
-	# APP-ROOT TEMPLATE & LOGIC
+		transform: translateY(10px)
+
+				
 	def render
 		<self>
 			<Header>
 			<main>
 				<.container>
 					<FilterBar>
-					<Listings>
+					# <Listings> # TODO: Uncomment this when bug is fixed
 				<div.signature> 
 					"Joyfully Coded with"
 					<a href="https://v2.imba.io" target="_blank"> 
@@ -56,18 +48,16 @@ tag app-root
 					<a href="https://github.com/ericvida" target="_blank"> "Eric Vida"
 
 tag Header
-	# HEADER STYLES
 	css &
 		display: block
 		h: 150px
 		w: 100%
 		bg: url("./images/bg-header-desktop.svg") repeat #5ba4a4 bgr: no-repeat bgs: 100%
-	# HEADER TEMPLATE
+		# bg: teal9
 	def render
 		<self>
 
 tag FilterBar
-	# FILTER BAR STYLES
 	css &
 		bg: white
 		display: flex
@@ -76,7 +66,7 @@ tag FilterBar
 		c: teal8 p: 2 radius: 2
 		shadow: $shadow
 		border-radius: 5px
-		min-height: 58px
+		min-height: 50px
 		.left
 			flex-grow: 1
 		.right
@@ -84,7 +74,7 @@ tag FilterBar
 		span
 			py:1 px:8px
 			display: inline-block
-	css .filterTag
+	css .tag
 		mr: 4 @last: 0
 		display: inline-block
 		user-select: none
@@ -92,52 +82,42 @@ tag FilterBar
 		font-size: 1em
 		p:0
 		shadow: sm
-		cursor: pointer
-		m:1
-		@hover
-			.name
-				bg:teal5/30
-			.remove
-				bg:teal6/100
 	css .name
-		bg: teal5/12
+		bg: teal5/18
 		radius: 2 0 0 2
 		fw: bold
 	css .remove
-		bg: teal6/80
+		background-color: teal6
 		color: teal1
 		brr: 2
 		fs: 1em
+		cursor: pointer
 		fw: bold
 	css .clear
 		cursor: pointer
 		color: gray6 @hover: teal6
 		bg: none @hover: gray1
 		user-select: none
-	# FILTER BAR METHODS
-	def removeTag str
-		filterArray.splice(filterArray.indexOf(str), 1)
-	# FILTER BAR TEMPLATE & LOGIC
-
+	prop tagNumber = 5
+	def removeTag
+		tagNumber--
 	def render
 		<self>
 			<.left>
-				for item in filterArray
-					<span.filterTag @click.removeTag(item)>
-						<span.name> "{item}"
-						<span.remove> "×"
+				for item in [0...tagNumber]
+					<span.tag>
+						<span.name> "tag"
+						<span.remove @click.removeTag> "×"
 			<.right>
-				<span.clear @click=(do filterArray = [])> "Clear"
-
+				<span.clear> "Clear"
 tag Listings
-	# LISTINGS TEMPLATE
 	def render
-		<self>
+		<self> 
 			for listing in listings
 				<Listing data=listing>
-			
+
 tag Listing
-	# LISTING STYLES
+	# Listing
 	css &
 		display: block 
 		bg: white p:4 my:7 radius:1 shadow: $shadow
@@ -200,17 +180,13 @@ tag Listing
 				justify-content: left
 			.tag
 				p: 8px 8px 5px
-				bg: teal5/12 @hover:teal5/20
+				bg:teal1 @hover:teal2
 				c:teal6 
 				fs: 12px
 				fw: bold
 				radius:1
 				mr:2 @last: 0
 				user-select: none
-	# LISTING METHODS
-	def addToFilterArray language
-		if filterArray.indexOf(language) is -1 then filterArray.push(language)
-	# LISTING TEMPLATE & LOGIC
 	def render
 		<self .featured=data.featured> 
 			<.info>
@@ -237,6 +213,6 @@ tag Listing
 				<hr[border: 1px solid gray2 w:100% my:4 display@sm: none]>
 				<.right>
 					for lang in data.languages
-						<span.tag @click.addToFilterArray(lang)> lang
+						<span.tag> lang
 					for tool in data.tools
-						<span.tag @click.addToFilterArray(tool)> tool
+						<span.tag> tool
