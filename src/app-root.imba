@@ -3,16 +3,16 @@ import {Logo} from './tags/Logo'
 
 var filterArray = ["HTML","CSS","JavaScript","Python", "React", "Sass","Ruby", "RoR", "Vue", "Django"]
 
-
+# 🟡Global Styles
 css @root
 	box-sizing: content-box
 	$font: 'Spartan', sans-serif
 	$shadow: 0px 5px 10px hsl(180, 29%, 80%)
-
 css body, html
 	p:0 m:0
+
 tag app-root
-	# APP-ROOT STYLES
+	# 🟡APP-ROOT STYLES
 	css &
 		d:flex
 		fld: column
@@ -38,7 +38,7 @@ tag app-root
 		display: inline-block
 		width: 80px
 		transform: translateY(10px)	
-	# APP-ROOT TEMPLATE & LOGIC
+	# 🟢APP-ROOT TEMPLATE & LOGIC
 	def render
 		<self>
 			<Header>
@@ -54,7 +54,7 @@ tag app-root
 					<a href="https://github.com/ericvida" target="_blank"> "Eric Vida"
 
 tag Header
-	# HEADER STYLES
+	# 🟡HEADER STYLES
 	css &
 		display: block
 		h: 150px
@@ -63,12 +63,12 @@ tag Header
 		bgs: cover
 
 		
-	# HEADER TEMPLATE
+	# 🟢 HEADER TEMPLATE
 	def render
 		<self>
 
 tag FilterBar
-	# FILTER BAR STYLES
+	# 🟡FILTER BAR STYLES
 	css &
 		bg: white
 		display: flex
@@ -118,11 +118,10 @@ tag FilterBar
 		fs:12px
 		border-bottom@hover: 2px solid teal6
 		user-select: none
-	# FILTER BAR METHODS
+	# 🟣FILTER BAR METHODS
 	def removeTag str
 		filterArray.splice(filterArray.indexOf(str), 1)
-	# FILTER BAR TEMPLATE & LOGIC
-
+	# 🟢FILTER BAR TEMPLATE & LOGIC
 	def render
 		<self>
 			<.left>
@@ -132,16 +131,14 @@ tag FilterBar
 						<span.remove> "×"
 			<.right>
 				<span.clear @click=(do filterArray = [])> "Clear"
-
 tag Listings
-	# LISTINGS TEMPLATE
+	# 🟢LISTINGS TEMPLATE
 	def render
 		<self>
 			for listing in listings
 				<Listing data=listing>
-			
 tag Listing
-	# LISTING STYLES
+	# 🟡LISTING STYLES
 	css &
 		display: block 
 		bg: white p:4 my:7 radius:1 shadow: $shadow
@@ -211,10 +208,10 @@ tag Listing
 				radius:1
 				mr:2 @last: 0
 				user-select: none
-	# LISTING METHODS
+	# 🟣 LISTING METHODS
 	def addToFilterArray language
 		if filterArray.indexOf(language) is -1 then filterArray.push(language)
-	# LISTING TEMPLATE & LOGIC
+	# 🟢 LISTING TEMPLATE & LOGIC
 	def render
 		<self .featured=data.featured> 
 			<.info>
