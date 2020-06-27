@@ -4,13 +4,13 @@ import {Logo} from './tags/Logo'
 var filterArray = ["HTML","CSS","JavaScript","Python", "React", "Sass","Ruby", "RoR", "Vue", "Django"]
 
 
-css body, html
-	p:0 m:0
 css @root
 	box-sizing: content-box
 	$font: 'Spartan', sans-serif
 	$shadow: 0px 5px 10px hsl(180, 29%, 80%)
 
+css body, html
+	p:0 m:0
 tag app-root
 	# APP-ROOT STYLES
 	css &
@@ -60,7 +60,7 @@ tag Header
 		h: 150px
 		w: 100%
 		bg: url("./images/bg-header-desktop.svg") repeat #5ba4a4
-		bgs: 100% cover
+		bgs: cover
 
 		
 	# HEADER TEMPLATE
@@ -74,46 +74,49 @@ tag FilterBar
 		display: flex
 		align-items: center
 		ff: $font
-		c: teal8 p: 2 radius: 2
+		c: teal8 p:2 radius: 2
+		min-height: 41px
 		shadow: $shadow
 		border-radius: 5px
-		min-height: 58px
 		.left
 			flex-grow: 1
+			display: flex
+			flex-wrap: wrap
+			mb:-2
 		.right
 			flex-grow: 0
-		span
-			py:1 px:8px
-			display: inline-block
-	css .filterTag
-		mr: 4 @last: 0
-		display: inline-block
-		user-select: none
-		line-height: 1.6em
-		font-size: 1em
+			px:2
+	css .filterPill
+		$height: 22px
 		p:0
-		shadow: sm
+		mr: 4 @last: 0
+		mb: 2
+		user-select: none
+		radius:2 overflow: hidden
 		cursor: pointer
-		m:1
+		display: flex
+		bg:teal5/12 @hover: teal5/20
+		height: $height
 		@hover
-			.name
-				bg:teal5/30
 			.remove
-				bg:teal6/100
-	css .name
-		bg: teal5/12
-		radius: 2 0 0 2
-		fw: bold
-	css .remove
-		bg: teal6/80
-		color: teal1
-		brr: 2
-		fs: 1em
-		fw: bold
+				bg:teal9/100
+		.name
+			px:2
+			fs:12px
+			fw: bold
+			c:teal5
+			line-height:$height
+		.remove
+			bg: teal6/80
+			color: teal1
+			fs: 16px
+			fw: bold
+			p:0 1.5 0 1.3
 	css .clear
 		cursor: pointer
 		color: gray6 @hover: teal6
-		bg: none @hover: gray1
+		fs:12px
+		border-bottom@hover: 2px solid teal6
 		user-select: none
 	# FILTER BAR METHODS
 	def removeTag str
@@ -124,7 +127,7 @@ tag FilterBar
 		<self>
 			<.left>
 				for item in filterArray
-					<span.filterTag @click.removeTag(item)>
+					<button.filterPill @click.removeTag(item)>
 						<span.name> "{item}"
 						<span.remove> "×"
 			<.right>
@@ -201,8 +204,8 @@ tag Listing
 				justify-content: left
 			.tag
 				p: 8px 8px 5px
-				bg: teal5/12 @hover:teal5/20
-				c:teal6 
+				bg: teal5/12 @hover:teal6
+				c:teal6 @hover: teal1
 				fs: 12px
 				fw: bold
 				radius:1
